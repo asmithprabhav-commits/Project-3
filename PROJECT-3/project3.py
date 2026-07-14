@@ -90,6 +90,29 @@ elif choice == "Dashboard":
             conn.commit()
             st.success("Review Added!")
         
+        elif choice == "Login":
+    user = st.text_input("Username")
+    pwd = st.text_input("Password", type="password")
+    if st.button("Login"):
+        c.execute("SELECT password FROM users WHERE username = ?", (user,))
+        data = c.fetchone()
+        
+        if data and bcrypt.checkpw(pwd.encode('utf-8'), data[0].encode('utf-8')):
+            st.session_state['auth'] = True
+            st.session_state['current_user'] = user
+            
+            # Logs the successful attempt
+            log_event("LOGIN_SUCCESS", user) 
+            
+            st.toast("Welcome back! Have a nice day! ☀️", icon="👋")
+            time.sleep(1)
+            st.rerun()
+        else:
+            st.error("Invalid credentials.")
+            
+            # ADD THIS LINE: Logs the failed attempt
+            log_event("LOGIN_FAILED", user)
+        
         st.subheader("Recent Reviews")
         c.execute("SELECT * FROM reviews ORDER BY timestamp DESC")
         for row in c.fetchall():
