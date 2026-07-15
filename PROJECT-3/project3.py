@@ -77,8 +77,8 @@ elif choice == "Login":
         else:
             st.error("Invalid credentials.")
 
-elif choice == "Dashboard":
-    st.subheader(f"Welcome back, {st.session_state['current_user']}!")
+       elif choice == "Dashboard":
+            st.subheader(f"Welcome back, {st.session_state['current_user']}!")
     
     # ab hum user ko reviews aur challenge ka option denge
     tab1, tab2 = st.tabs(["📝 Reviews", "🧩 Challenge"])
@@ -91,9 +91,9 @@ elif choice == "Dashboard":
             st.success("Review Added!")
         
         elif choice == "Login":
-    user = st.text_input("Username")
-    pwd = st.text_input("Password", type="password")
-    if st.button("Login"):
+             user = st.text_input("Username")
+             pwd = st.text_input("Password", type="password")
+        if st.button("Login"):
         c.execute("SELECT password FROM users WHERE username = ?", (user,))
         data = c.fetchone()
         
